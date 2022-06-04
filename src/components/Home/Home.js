@@ -10,7 +10,7 @@ const Home = () => {
     //Task: whenever i get data from api i want to dispatch an action so that after doing dispatch this will go to reducer and reducer will the initial state
 
     const dispatch=useDispatch()
-    const movieText='harryx'
+    const movieText='harry'
     const showtext='Friends'
     // const movieText='harry'
 

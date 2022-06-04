@@ -30,7 +30,7 @@ export const fetchAsyncShows=createAsyncThunk('movies/fetchAsyncShows', async(se
     return response.data        //returning async action creator
 })
 
-//fetching movie/show details from api using async redux thunk
+//fetching movie/show details from api using async redux thunk based on itemID
 //'movies/fetchAsyncShows'=>kind of redux thunk convention
 export const fetchAsyncMovieOrShowDetail=createAsyncThunk('movies/fetchAsyncMovieOrShowDetail', async(itemId)=>{    //base on the itemId data will be fetched from api
     //API CALL
@@ -50,6 +50,7 @@ const initialState={
     movies: {},
     shows:{},
     selectedMovieOrShow:{},
+    error:{},
 }
 
 const movieSlice=createSlice({
@@ -59,7 +60,7 @@ const movieSlice=createSlice({
     //inside reducers (sync) actions creator will be defined
     reducers:{
         addmovies: (state, {payload})=>{  //
-            state.movies=payload;    //initial state update         //here we don't need to follow immutability because in redux toolkit it uses immer
+            state.movies=payload;    //initial state update         //here we don't need to follow immutability because in redux toolkit it uses immer jsx.
         },
         removeSelectedMovieOrShow: (state)=>{
             //removing clicked movieorshow details
@@ -75,12 +76,15 @@ const movieSlice=createSlice({
         },
         //api call korey successfully mavies data fetch kortey parley initial state ar movies name ar property update hobey
         [fetchAsyncMovies.fulfilled]:(state,{payload})=>{   //payload => fetchAsyncMovies() ar thekey returned data 
-            console.log('movies data Fetched successfully')
-            return {...state,movies:payload}   
+            state.movies = payload; //remember: return {...state,shows:payload}   ,state.movies = payload;  both works as same
+            
+            // console.log('movies data Fetched successfully')
+            // return {...state,movies:payload}   
         },
         //API call fail holey 
-        [fetchAsyncMovies.rejected]:()=>{
-            console.log('API call Failed')
+        [fetchAsyncMovies.rejected]:(state,{error})=>{
+            state.error = error;
+            
         },
          //api call korey successfully shows data fetch kortey parley initial state ar shows name ar property  update hobey(this process is called state update using redux thunk)
          [fetchAsyncShows.fulfilled]:(state,{payload})=>{   //payload => fetchAsyncShows() ar thekey returned data 
